@@ -597,47 +597,31 @@
 		radian = value * unit;
 
 		// Correct the hours or minutes
-		if (options.twelvehour) {
-			if (isHours) {
+		if (isHours) {
+			if (options.twelvehour) {
 				if (value === 0) {
 					value = 12;
 				}
 			} else {
-				if (roundBy5) {
-					value *= 5;
-				}
-				if (value === 60) {
-					value = 0;
-				}				
-				else if (this.options.quarterpick) {
-					if(value < 15)
-						value*=15;
-					if (value === 60)
-						value = 0;
-				}
-			}
-		} else {
-			if (isHours) {
 				if (value === 12) {
 					value = 0;
 				}
 				value = inner ? (value === 0 ? 12 : value) : value === 0 ? 0 : value + 12;
-			} else {
-				if (roundBy5) {
-					value *= 5;
-				}
-				if (value === 60) {
-					value = 0;
-				}
-				else if (this.options.quarterpick) {
-					if(value < 15)
-						value*=15;
-					if (value === 60)
-						value = 0;
+			}
+		} else {
+			if (roundBy5) {
+				value *= 5;
+			}
+			else if (this.options.quarterpick) {
+				if(value < 15) {
+					value *= 15;
 				}
 			}
+			if (value === 60) {
+				value = 0;
+			}
 		}
-		
+
 		// Once hours or minutes changed, vibrate the device
 		if (this[this.currentView] !== value) {
 			if (vibrate && this.options.vibrate) {
